@@ -69,5 +69,11 @@ class DBModule:
                 post_list.append(post)
         
         return post_list
+    
+    def post_edit(self, pid, title, contents):
+        self.db.child("posts").child(f"{pid}").update({"title":title})
+        self.db.child("posts").child(f"{pid}").update({"contents":contents})
+        
+        
 
 ''' 댓글 기능도 추가 가능(스스로)'''

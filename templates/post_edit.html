@@ -1,0 +1,15 @@
+{% extends "base.html"%}
+
+{% block user%}
+
+{%endblock user%}
+
+{%block contents%}
+
+<form action="{{url_for('edit_done')}}" method="get">
+    <input type="text" value = "{{title}}" name="title" id="title" required>
+    <input type="text" value ="{{contents}}" name="contents" id="contents" required>
+    <input type="text" value ="{{pid}}" name="pid" id="pid">
+    <button type="submit">수정하기</button>
+</form>
+{%endblock contents%}

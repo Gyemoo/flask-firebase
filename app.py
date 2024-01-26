@@ -25,7 +25,22 @@ def post_list():
 @app.route('/post/<string:pid>')
 def post(pid):
     post = DB.post_detail(pid)
-    return render_template("post_detail.html",post = post)
+    return render_template("post_detail.html",post = post, pid = pid)
+
+@app.route('/post/<string:pid>/edit')
+def post_edits(pid):
+    post = DB.post_detail(pid)
+    title = post["title"]
+    contents = post["contents"]
+    return render_template("post_edit.html",post = post,title=title,contents=contents, pid=pid)
+
+@app.route('/edit_done', methods=["get"])
+def edit_done():
+    title = request.args.get("title")
+    contents = request.args.get("contents")
+    pid = request.args.get("pid")
+    DB.post_edit(pid, title, contents)
+    return redirect(url_for("index"))
 
 @app.route('/login')
 def login():
