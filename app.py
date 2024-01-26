@@ -7,7 +7,11 @@ DB = DBModule()
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    if "uid" in session:
+        user = session["uid"]
+    else:
+        user = "Login"
+    return render_template("index.html", user = user)
 
 @app.route('/list')
 def post_list():
@@ -19,12 +23,12 @@ def post(pid):
 
 @app.route('/login')
 def login():
+    if "uid" in session:
+        return redirect(url_for("index"))
     return render_template("login.html")
 
 @app.route('/login_done',methods = ["get"])
 def login_done():
-    if "uid" in session:
-        return redirect(url_for("index"))
     uid = request.args.get("id")
     pwd = request.args.get("pwd")
     if DB.login(uid, pwd):
@@ -32,6 +36,14 @@ def login_done():
         return redirect(url_for("index"))
     else:
         flash("아이디가 없거나 비밀번호가 틀립니다.")
+        return redirect(url_for("login"))
+    
+@app.route('/logout')
+def logout():
+    if "uid" in session:
+        session.pop("uid")
+        return redirect(url_for("index"))
+    else:
         return redirect(url_for("login"))
 
 @app.route('/signin')
