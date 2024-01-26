@@ -11,6 +11,14 @@ class DBModule:
 
     def login(self, id, pwd):
         pass
+    
+    def signin_verification(self, uid):
+        users = self.db.child("users").get().val()
+        for user in users:
+            if uid == user:
+                return False
+        
+        return True
 
     def signin(self, _id_, pwd, name, email):
         information = {
@@ -18,7 +26,13 @@ class DBModule:
             "uname":name,
             "email":email
         }
-        self.db.child("users").child(_id_).set(information)
+        if self.signin_verification(_id_):
+            self.db.child("users").child(_id_).set(information)
+            return True
+        else:
+            return False
+            
+    
 
     def write_post(self, user, contents):
         pass
