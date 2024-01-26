@@ -73,6 +73,9 @@ class DBModule:
     def post_edit(self, pid, title, contents):
         self.db.child("posts").child(f"{pid}").update({"title":title})
         self.db.child("posts").child(f"{pid}").update({"contents":contents})
+
+    def post_delete(self, pid):
+        self.db.child("posts").child(f"{pid}").remove()
         
         
 
