@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request, flash
+from flask import Flask, redirect, render_template, url_for, request, flash, session
 from DB_handler import DBModule
 
 app = Flask(__name__)
@@ -19,11 +19,20 @@ def post(pid):
 
 @app.route('/login')
 def login():
-    pass
+    return render_template("login.html")
 
-@app.route('/login_done')
+@app.route('/login_done',methods = ["get"])
 def login_done():
-    pass
+    if "uid" in session:
+        return redirect(url_for("index"))
+    uid = request.args.get("id")
+    pwd = request.args.get("pwd")
+    if DB.login(uid, pwd):
+        session["uid"] = uid
+        return redirect(url_for("index"))
+    else:
+        flash("아이디가 없거나 비밀번호가 틀립니다.")
+        return redirect(url_for("login"))
 
 @app.route('/signin')
 def signin():
