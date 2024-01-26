@@ -28,9 +28,17 @@ def login_done():
 def signin():
     return render_template("signin.html")
 
-@app.route('/signin_done')
+@app.route('/signin_done',methods = ["get"])
 def signin_done():
-    pass
+    email = request.args.get("email")
+    uid = request.args.get("id")
+    pwd = request.args.get("pwd")
+    name = request.args.get("name")
+    if DB.signin(email = email , _id_ = uid ,pwd = pwd,name =name):
+        return redirect(url_for("index"))
+    else:
+        return redirect(url_for("signin"))
+    
 
 @app.route('/user/<uid>')
 def user(uid):
