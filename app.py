@@ -69,11 +69,18 @@ def user(uid):
 
 @app.route('/write')
 def write():
-    pass
+    if "uid" in session:
+        return render_template("write_post.html")
+    else:
+        return redirect(url_for("login"))
 
-@app.route('/write_done', methods=["GET"])
-def write_down():
-    pass
+@app.route('/write_done', methods=["get"])
+def write_done():
+    title = request.args.get("title")
+    contents = request.args.get("contents")
+    uid = session.get("uid")
+    print(title, contents, uid)
+    return redirect(url_for("index"))
 
 if __name__== "__main__":
     app.run(host="0.0.0.0", debug=True)
