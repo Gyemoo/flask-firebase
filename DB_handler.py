@@ -58,7 +58,8 @@ class DBModule:
         return post_lists
 
     def post_detail(self, pid):
-        pass
+        post = self.db.child("posts").get().val()[pid]
+        return post
 
     def get_user(self, uid):
         pass
