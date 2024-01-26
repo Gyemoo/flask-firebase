@@ -69,9 +69,15 @@ def signin_done():
         return redirect(url_for("signin"))
     
 
-@app.route('/user/<uid>')
-def user(uid):
-    pass
+@app.route('/user/<string:uid>')
+def user_posts(uid):
+    u_post = DB.get_user(uid)
+    if u_post == None:
+        length = 0
+    else:
+        length = len(u_post)
+    return render_template("user_detail.html",post_list = u_post, length = length, uid=uid)
+
 
 @app.route('/write')
 def write():

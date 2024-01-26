@@ -62,6 +62,12 @@ class DBModule:
         return post
 
     def get_user(self, uid):
-        pass
+        post_list = []
+        users_post = self.db.child("posts").get().val()
+        for post in users_post.items():
+            if post[1]["uid"] == uid:
+                post_list.append(post)
+        
+        return post_list
 
 ''' 댓글 기능도 추가 가능(스스로)'''
