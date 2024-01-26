@@ -1,5 +1,6 @@
 import pyrebase
 import json
+import uuid
 
 class DBModule:
     def __init__(self):
@@ -42,11 +43,19 @@ class DBModule:
             
     
 
-    def write_post(self, user, contents):
-        pass
+    def write_post(self, title, contents, uid):
+        pid = str(uuid.uuid4())[:12]
+        print(pid)
+        information = {
+            "title" : title,
+            "contents" : contents,
+            "uid" : uid
+        }
+        self.db.child("posts").child(pid).set(information)
 
     def post_list(self):
-        pass
+        post_lists = self.db.child("posts").get().val()
+        return post_lists
 
     def post_detail(self, pid):
         pass

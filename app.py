@@ -15,7 +15,12 @@ def index():
 
 @app.route('/list')
 def post_list():
-    pass
+    post_list = DB.post_list()
+    if post_list == None:
+        length = 0
+    else:
+        length = len(post_list)
+    return render_template("post_list.html",post_list = post_list,length=length)
 
 @app.route('/post/<int:pid>')
 def post(pid):
@@ -79,7 +84,7 @@ def write_done():
     title = request.args.get("title")
     contents = request.args.get("contents")
     uid = session.get("uid")
-    print(title, contents, uid)
+    DB.write_post(title, contents, uid)
     return redirect(url_for("index"))
 
 if __name__== "__main__":
